@@ -37,8 +37,13 @@
             id="autocomplete"
             class="input-error input-xxlarge"
             v-model="keyword"
+            ref="ipt"
           />
-          <button class="sui-btn btn-xlarge btn-danger" type="button" @click="goSearch">
+          <button
+            class="sui-btn btn-xlarge btn-danger"
+            type="button"
+            @click="goSearch"
+          >
             搜索
           </button>
         </form>
@@ -50,23 +55,26 @@
 <script>
 export default {
   name: 'MyHeader',
-  data(){
+  data() {
     return {
-      keyword: ''
+      keyword: '',
     }
   },
-  methods:{
+  methods: {
     // 编程式导航，跳转到搜索组件
-    goSearch(){
+    goSearch() {
       // 路由传递参数
       // 第一种：字符串形式
       // this.$router.push('/search/' + this.keyword + '?k=' + this.keyword.toUpperCase())
       // 第二种：模板字符串形式
       // this.$router.push(`/search/${this.keyword}/?k=${this.keyword.toUpperCase()}`)
       // 第三种：对象模式
-      let location = { name: 'search', params: { keyword: this.keyword || undefined } }
+      let location = {
+        name: 'search',
+        params: { keyword: this.keyword || undefined },
+      }
       // 判断$route中是否有查询参数，有的话就添加进去
-      if(this.$route.query){
+      if (this.$route.query) {
         location.query = this.$route.query
       }
       this.$router.push(location)
@@ -76,8 +84,14 @@ export default {
       //     keyword: this.keyword || undefined
       //   },
       // })
-    }
-  }
+    },
+  },
+  mounted() {
+    this.$bus.$on('clearInput', () => {
+      // this.$refs.ipt.value = ''
+      this.keyword = ''
+    })
+  },
 }
 </script>
 
