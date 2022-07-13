@@ -57,9 +57,9 @@
               <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"
-                      ><img :src="goods.defaultImg"
-                    /></a>
+                    <router-link :to="{ path: '/detail/' + goods.id }">
+                      <img :src="goods.defaultImg"/>
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -126,7 +126,7 @@ export default {
         // 分页器用的，代表的是当前是第几页
         pageNo: 1,
         // 代表每一页展示数据个数
-        pageSize: 3,
+        pageSize: 10,
         // 平台售卖属性操作带的数据
         props: [],
         // 品牌
