@@ -6,6 +6,8 @@ import Register from '@/pages/Register/Register.vue'
 import Detail from '@/pages/Detail/Detail.vue'
 import AddCartSuccess from '@/pages/AddCartSuccess/AddCartSuccess.vue'
 import ShopCart from '@/pages/ShopCart/ShopCart.vue'
+import Trade from '@/pages/Trade/Trade.vue'
+import Pay from '@/pages/Pay/Pay.vue'
 // 默认导出路由信息
 export default [
   // 路由重定向
@@ -67,6 +69,22 @@ export default [
     path: '/shopcart',
     name: 'ShopCart',
     component: ShopCart,
+    meta:{
+      showFooter: true
+    }
+  },
+  {
+    path: '/trade',
+    name: 'trade',
+    component: Trade,
+    meta:{
+      showFooter: true
+    }
+  },
+  {
+    path: '/pay',
+    name: 'pay',
+    component: Pay,
     meta:{
       showFooter: true
     }

@@ -24,6 +24,23 @@ const actions = {
     }else{
       return Promise.reject(new Error('fail'))
     }
+  },
+  deleteAllChecked({ getters, dispatch }){
+    let promises = []
+    getters.cartList.cartInfoList.forEach(item => {
+      if(item.isChecked == 1){
+        promises.push(dispatch('deleteGoods', item.skuId))
+      }
+    })
+    return Promise.all(promises)
+  },
+  checkAll({ getters, dispatch }, value){
+    console.log(value);
+    let promises = []
+    getters.cartList.cartInfoList.forEach(item => {
+      promises.push(dispatch('reqCheck', { skuId: item.skuId, isChecked: value }))
+    })
+    return Promise.all(promises)
   }
 }
 const getters = {

@@ -38,3 +38,30 @@ export const reqDeleteGoods = (skuId) => request({ url: `/cart/deleteCart/${skuI
 
 // 修改商品选中状态
 export const reqCheck = (skuId, isChecked) => request({ url: `/cart/checkCart/${skuId}/${isChecked}`, method: 'GET' })
+
+// 获取验证码
+export const reqCode = (phone) => request({ url: `/user/passport/sendCode/${phone}`, method: 'GET' })
+
+// 注册新用户
+export const reqRegisterUser = (data) => request({ url: '/user/passport/register', data, method: 'POST' })
+
+// 登录
+export const reqLogin = (data) => request({ url: '/user/passport/login', data, method: 'POST' })
+
+// 获取用户信息
+export const reqUserInfo = () => request({ url: '/user/passport/auth/getUserInfo', method: 'GET' })
+
+// 退出登录
+export const reqLogout = () => request({ url: '/user/passport/logout', method: 'GET' })
+
+// 获取用户地址信息
+export const reqUserAddressInfo = () => request({ url: '/user/userAddress/auth/findUserAddressList', method: 'GET' })
+
+// 获取订单交易页
+export const reqTrade = () => request({ url: '/order/auth/trade', method: 'GET' })
+
+// 提交订单
+export const reqSubmitOrder = (tradeNo, data) => request({ url: `/order/auth/submitOrder?tradeNo=${tradeNo}`, method: 'POST', data })
+
+// 获取订单支付信息
+export const reqPayInfo = (orderId) => request({ url: `/payment/weixin/createNative/${orderId}`, method: 'GET' })

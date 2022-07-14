@@ -63,11 +63,11 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllChecked" />
+        <input class="chooseAll" type="checkbox" :checked="isAllChecked && cartInfoList.length > 0" @change="checkAll" />
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deleteAllChecked">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -78,7 +78,7 @@
           <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <router-link class="sum-btn" to="/trade">结算</router-link>
         </div>
       </div>
     </div>
@@ -130,6 +130,25 @@ export default {
     async checkChange(cart, e){
       try {
         await this.$store.dispatch('shopcart/reqCheck', { skuId: cart.skuId, isChecked: e.target.checked ? '1' : '0' })
+        this.getData()
+      } catch (error) {
+        alert(error.message)
+      }
+    },
+    // 删除所有勾选的商品
+    deleteAllChecked(){
+      try {
+        this.$store.dispatch('shopcart/deleteAllChecked')
+        this.getData()
+      } catch (error) {
+        console.log(error.message);
+      }
+      
+    },
+    // 全选or全不选
+    checkAll(e){
+      try {
+        this.$store.dispatch('shopcart/checkAll', e.target.checked ? '1' : '0')
         this.getData()
       } catch (error) {
         alert(error.message)

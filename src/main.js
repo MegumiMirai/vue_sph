@@ -26,11 +26,15 @@ import '@/mock/mockServer'
 // 导入swiper的样式
 import 'swiper/css/swiper.css'
 
+// 导入api中的所有方法，挂载到Vue身上
+import * as API from '@/api'
+
 new Vue({
   render: h => h(App),
   beforeCreate(){
     // 配置全局事件总线
     Vue.prototype.$bus = this
+    Vue.prototype.$API = API
   },
   // 注册路由
   router,
