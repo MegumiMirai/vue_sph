@@ -141,7 +141,6 @@ export default {
         orderComment: this.msg,
         orderDetailList: this.trade.detailArrayList
       }
-      console.log(data)
       let res = await this.$API.reqSubmitOrder(this.trade.tradeNo, data)
       if(res.code === 200){
         this.orderId = res.data

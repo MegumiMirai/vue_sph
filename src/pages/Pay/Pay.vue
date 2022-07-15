@@ -76,7 +76,7 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <a class="btn" @click="open">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -89,15 +89,19 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 
 <script>
+import QRCode from 'qrcode'
 export default {
   name: 'MyPay',
   data() {
     return {
       payInfo: {},
+      timer: '',
+      code: null
     }
   },
   computed: {
@@ -114,6 +118,52 @@ export default {
       let res = await this.$API.reqPayInfo(this.orderId)
       // console.log(res);
       this.payInfo = res.data
+    },
+    async open() {
+      let url = await QRCode.toDataURL(this.payInfo.codeUrl)
+      this.$alert(`<img src="${url}" alt="">`, '请你微信支付', {
+        dangerouslyUseHTMLString: true,
+        center: true,
+        showCancelButton: true,
+        cancelButtonText: '支付遇见问题',
+        confirmButtonText: '已完成支付',
+        showClose: false,
+        beforeClose:(type, instance, done) => {
+          if(type === 'cancel'){
+            alert('请联系管理员')
+            // 清除定时器
+            clearInterval(this.timer)
+            this.timer = null
+            // 关闭弹出框
+            done()
+          }else{
+            // 判断是否真的支付了
+            if(this.code === 200){
+              clearInterval(this.timer)
+              this.timer = null
+              done()
+              this.$router.push('/paysuccess')
+            }
+          }
+        }
+      })
+      // 支付成功，路由跳转，支付失败，提示信息
+      if(!this.timer){
+        this.timer = setInterval(async () => {
+          // 发请求获取用户支付状态
+          let res = await this.$API.reqPayStatus(this.orderId)
+          if(res.code === 200){
+            // 清除定时器
+            clearInterval(this.timer)
+            // 保存支付成功返回的code
+            this.code = res.code
+            // 关闭弹出框
+            this.$msgbox.close()
+            // 跳转路由
+            this.$router.push('/paysuccess')
+          }
+        }, 1000)
+      }
     },
   },
 }

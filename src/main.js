@@ -29,6 +29,22 @@ import 'swiper/css/swiper.css'
 // 导入api中的所有方法，挂载到Vue身上
 import * as API from '@/api'
 
+// 按需引入element-UI组件库
+import { MessageBox } from 'element-ui';
+
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+
+// 导入懒加载
+import VueLazyload from 'vue-lazyload'
+import atm from './assets/1.gif'
+Vue.use(VueLazyload, {
+  loading: atm
+})
+
+// 引入表单验证规则
+import '@/plugins/validate'
+
 new Vue({
   render: h => h(App),
   beforeCreate(){

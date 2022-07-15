@@ -80,7 +80,9 @@
           let { phone, password } = this
           phone&&password&& await this.$store.dispatch('user/login', {phone, password})
           // 登陆成功，路由跳转
-          this.$router.push('/home')
+          // this.$router.push('/home')
+          let toPath = this.$route.query.redirect || '/home'
+          this.$router.push(toPath)
         } catch (error) {
           alert(error.message)
         }
